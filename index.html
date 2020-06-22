@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Website</title>
+    <!-- Here the secret ABC132 is hardcoded, the idea is that the server sets it as random value-->
+    <script src="protector.js" data-secret="ABC123"></script>
+</head>
+<body>
+<h2>Website</h2>
+<p>Welcome to my website</p>
+<a href="shop.html" id="s">Shop</a>
+<script>
+    // if a legitimate script has to access a protected attribute it must set the secret as prefix
+    // the easiest way would be to wrap setting of href in a own method which adds the prefix
+    function sethref(element, x){
+      element.href = "ABC123" + x;
+    }
+    sethref(s, "shop.html#cart")
+</script>
+<script src="bad.js"></script>
+</body>
+</html>
