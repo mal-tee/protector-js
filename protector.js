@@ -2,6 +2,8 @@
 //get allow-regex and remove it from script-tag
   let regexstr = document.currentScript.getAttribute('data-allow');
   let regex = RegExp(regexstr);
+  let test = regex.test;
+  let boundtest = test.bind(regex);
   document.currentScript.removeAttribute('data-allow');
 
 //create a new link so we can make sure to get the prototype of links
@@ -16,8 +18,10 @@
   let real_descriptor = Object.getOwnPropertyDescriptor(prototype, 'href');
   let saver_desc = {
     set: function(x) {
-      if (regex.test(x)) {
-        real_descriptor.set.apply(this, ['test']);
+      if (boundtest(x)) {
+        // an Attacker might overwrite the apply-function with something else
+        // i.e. setting the value might not always work, but an attacker never can change the value
+        real_descriptor.set.apply(this, [x]);
         console.log('PROTECTOR: Allowed update of href: ', x);
       } else {
         console.error('PROTECTOR: Denied update of href: ', x);
