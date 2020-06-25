@@ -16,12 +16,12 @@
 
 //set a new, saver, setter for links
   let real_descriptor = Object.getOwnPropertyDescriptor(prototype, 'href');
+  let real_descriptor_apply = real_descriptor.set.apply;
+  let boundapply = real_descriptor_apply.bind(real_descriptor.set);
   let saver_desc = {
     set: function(x) {
       if (boundtest(x)) {
-        // an Attacker might overwrite the apply-function with something else
-        // i.e. setting the value might not always work, but an attacker never can change the value
-        real_descriptor.set.apply(this, [x]);
+        boundapply(this, [x]);
         console.log('PROTECTOR: Allowed update of href: ', x);
       } else {
         console.error('PROTECTOR: Denied update of href: ', x);
