@@ -10,8 +10,10 @@
 <h2>Website</h2>
 <p>Welcome to my website</p>
 <a href="shop.html" id="s">Shop</a>
+<!--The bad.js will attempt to change the href of all links. It will not be allowed by protector.js-->
 <script src="bad.js"></script>
 <script>
+  //This will be allowed by the regex
   s.href = 'shop.html#cart';
 </script>
 <script src="bad.js"></script>
