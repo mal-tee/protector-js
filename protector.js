@@ -7,9 +7,11 @@
   document.currentScript.removeAttribute('data-allow');
 
 //create a new link so we can make sure to get the prototype of links
-  let name = 'protectorjsartificallink';
-  document.write(`<a id="${name}" hidden></a>`);
-  let a = document.getElementById(name);
+  let a = document.createElement('a');
+  a.style.display = 'none';
+  window.addEventListener('load', function() {
+    document.body.appendChild(a);
+  });
 
 // get the link-prototype
   let prototype = Object.getPrototypeOf(a);
