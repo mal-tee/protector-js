@@ -1,11 +1,20 @@
 (function() {
+  let hasattr = document.currentScript.hasAttribute('data-allow');
+  let isAllowed;
+  if (hasattr) {
 //get allow-regex and remove it from script-tag
-  let regexstr = document.currentScript.getAttribute('data-allow');
-  let regex = RegExp(regexstr);
-  let test = regex.test;
-  let boundtest = test.bind(regex);
-  document.currentScript.removeAttribute('data-allow');
-
+    let regexstr = document.currentScript.getAttribute('data-allow');
+    let regex = RegExp(regexstr);
+    let test = regex.test;
+    // use the test function of the regex as allow-function
+    isAllowed = test.bind(regex);
+    document.currentScript.removeAttribute('data-allow');
+  } else {
+    //if no regex is provided  we will disallow every change
+    isAllowed = function(x) {
+      return false;
+    };
+  }
 //create a new link so we can make sure to get the prototype of links
   let a = document.createElement('a');
   a.style.display = 'none';
@@ -22,7 +31,7 @@
   let boundapply = real_descriptor_apply.bind(real_descriptor.set);
   let saver_desc = {
     set: function(x) {
-      if (boundtest(x)) {
+      if (isAllowed(x)) {
         boundapply(this, [x]);
         console.log('PROTECTOR: Allowed update of href: ', x);
       } else {
