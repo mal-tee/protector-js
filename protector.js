@@ -1,7 +1,7 @@
 (function() {
-  let hasattr = document.currentScript.hasAttribute('data-allow');
+  let regexProvided = document.currentScript.hasAttribute('data-allow');
   let isAllowed;
-  if (hasattr) {
+  if (regexProvided) {
 //get allow-regex and remove it from script-tag
     let regexstr = document.currentScript.getAttribute('data-allow');
     let regex = RegExp(regexstr);
@@ -29,7 +29,7 @@
   let real_descriptor = Object.getOwnPropertyDescriptor(prototype, 'href');
   let real_descriptor_apply = real_descriptor.set.apply;
   let boundapply = real_descriptor_apply.bind(real_descriptor.set);
-  let saver_desc = {
+  let safer_descriptor = {
     set: function(x) {
       if (isAllowed(x)) {
         boundapply(this, [x]);
@@ -40,6 +40,6 @@
     },
     configurable: false,
   };
-  Object.defineProperty(prototype, 'href', saver_desc);
+  Object.defineProperty(prototype, 'href', safer_descriptor);
   a.remove();
 })();
