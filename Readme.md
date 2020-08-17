@@ -7,7 +7,7 @@ This script only protects against unwanted changes to links which are made by th
 
 ## Usage
 This script must be included before any third-party script.
-```
+```html
 <head>
     <!-- Pass a regex in data-allow which defines which values are allowed-->
     <script src="protector.js" data-allow="^shop.html(#[a-z0-9]*)?$"></script>
