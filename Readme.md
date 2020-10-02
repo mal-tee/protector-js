@@ -1,6 +1,6 @@
 # `Protector.js`
 
-Protector.js is a proof-of-concept script that can be deployed alongside (untrusted) third-party scripts to prevent Click Interception by changed href-attributes of hyperlinks. 
+`Protector.js` is a proof-of-concept script that can be deployed alongside (untrusted) third-party scripts to prevent Click Interception via changed href-attributes of hyperlinks. 
 
 ## Threat Model
 This script only protects against unwanted changes to links which are made by third-party scripts.
